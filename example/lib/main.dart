@@ -70,13 +70,10 @@ class _HomePageState extends State<HomePage> {
               // UMP
               Text(
                 'User Messaging Platform',
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
               SizedBox(height: 16),
-              if (_consentInformation == null)
-                LinearProgressIndicator()
-              else
-                Text(_consentInformation.toString()),
+              if (_consentInformation == null) LinearProgressIndicator() else Text(_consentInformation.toString()),
               SizedBox(height: 16),
               CheckboxListTile(
                 title: Text('Tag as under age of consent'),
@@ -109,7 +106,7 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(height: 32),
                 Text(
                   'App Tracking Transparency',
-                  style: Theme.of(context).textTheme.headline5,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
                 SizedBox(height: 16),
                 if (_trackingAuthorizationStatus == null)
@@ -154,9 +151,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _requestConsentInfoUpdate() {
-    return _ump
-        .requestConsentInfoUpdate(_buildConsentRequestParameters())
-        .then((info) {
+    return _ump.requestConsentInfoUpdate(_buildConsentRequestParameters()).then((info) {
       setState(() {
         _consentInformation = info;
       });
