@@ -1,8 +1,6 @@
-import 'package:collection/collection.dart'
-    show IterableExtension, DeepCollectionEquality;
+import 'package:collection/collection.dart' show IterableExtension, DeepCollectionEquality;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:meta/meta.dart';
 
 /// Debug values for testing geography.
 enum DebugGeography {
@@ -48,14 +46,11 @@ class ConsentDebugSettings {
       identical(this, other) ||
       other is ConsentDebugSettings &&
           runtimeType == other.runtimeType &&
-          const DeepCollectionEquality.unordered()
-              .equals(testDeviceIds, other.testDeviceIds) &&
+          const DeepCollectionEquality.unordered().equals(testDeviceIds, other.testDeviceIds) &&
           geography == other.geography;
 
   @override
-  int get hashCode =>
-      const DeepCollectionEquality.unordered().hash(testDeviceIds) ^
-      geography.hashCode;
+  int get hashCode => const DeepCollectionEquality.unordered().hash(testDeviceIds) ^ geography.hashCode;
 
   @override
   String toString() => 'ConsentDebugSettings('
@@ -307,8 +302,7 @@ enum TrackingAuthorizationStatus {
 class UserMessagingPlatform {
   const UserMessagingPlatform._();
 
-  static const _channel =
-      MethodChannel('com.terwesten.gabriel/user_messaging_platform');
+  static const _channel = MethodChannel('com.terwesten.gabriel/user_messaging_platform');
 
   static const _unknownErrorCode = 'unknown';
 
@@ -381,8 +375,7 @@ class UserMessagingPlatform {
   }
 
   /// Resets the consent information.
-  Future<void> resetConsentInfo() =>
-      _channel.invokeMethod<void>('resetConsentInfo');
+  Future<void> resetConsentInfo() => _channel.invokeMethod<void>('resetConsentInfo');
 
   /// Returns a [Future] which resolves to the authorization status that is
   /// current for the calling application.
@@ -394,11 +387,9 @@ class UserMessagingPlatform {
   ///
   /// See:
   /// - [ATT Docs](https://developer.apple.com/documentation/apptrackingtransparency)
-  Future<TrackingAuthorizationStatus?> getTrackingAuthorizationStatus() =>
-      _channel.invokeMethod<String>('getTrackingAuthorizationStatus').then(
-          (result) => result == null
-              ? null
-              : _enumFromString(TrackingAuthorizationStatus.values, result));
+  Future<TrackingAuthorizationStatus?> getTrackingAuthorizationStatus() => _channel
+      .invokeMethod<String>('getTrackingAuthorizationStatus')
+      .then((result) => result == null ? null : _enumFromString(TrackingAuthorizationStatus.values, result));
 
   /// Request to authorize or deny access to app-related data that can be used
   /// for tracking the user or the device.
@@ -413,23 +404,20 @@ class UserMessagingPlatform {
   ///
   /// See:
   /// - [ATT Docs](https://developer.apple.com/documentation/apptrackingtransparency)
-  Future<TrackingAuthorizationStatus?> requestTrackingAuthorization() =>
-      _channel.invokeMethod<String>('requestTrackingAuthorization').then(
-          (result) => result == null
-              ? null
-              : _enumFromString(TrackingAuthorizationStatus.values, result));
+  Future<TrackingAuthorizationStatus?> requestTrackingAuthorization() => _channel
+      .invokeMethod<String>('requestTrackingAuthorization')
+      .then((result) => result == null ? null : _enumFromString(TrackingAuthorizationStatus.values, result));
 }
 
-ConsentInformation _parseConsentInformation(Map<String, String> info) =>
-    ConsentInformation(
-      consentStatus:
-          _enumFromString(ConsentStatus.values, info['consentStatus']!)!,
+ConsentInformation _parseConsentInformation(Map<String, String> info) => ConsentInformation(
+      consentStatus: _enumFromString(ConsentStatus.values, info['consentStatus']!)!,
       formStatus: _enumFromString(FormStatus.values, info['formStatus']!)!,
     );
 
 /// Returns one of the values of an enum, whose name matches a string.
-T? _enumFromString<T extends Object>(List<T> enumValues, String valueName) =>
-    enumValues.firstWhereOrNull((it) => describeEnum(it) == valueName);
+T? _enumFromString<T extends Object>(List<T> enumValues, String valueName) {
+  return enumValues.firstWhereOrNull((it) => _enumToString(it) == valueName);
+}
 
 String _enumToString(Object value) => value.toString().split('.')[1];
 

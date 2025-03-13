@@ -15,8 +15,7 @@ void main() {
     formStatus: FormStatus.available,
   );
 
-  const channel =
-      MethodChannel('com.terwesten.gabriel/user_messaging_platform');
+  const channel = MethodChannel('com.terwesten.gabriel/user_messaging_platform');
 
   final methodCallArguments = <String, List<Object?>>{};
   final methodCallResult = <String, Object?>{};
@@ -25,10 +24,9 @@ void main() {
   final ump = UserMessagingPlatform.instance;
 
   setUp(() {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      methodCallArguments
-          .putIfAbsent(methodCall.method, () => [])
-          .add(methodCall.arguments);
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(channel,
+        (MethodCall methodCall) async {
+      methodCallArguments.putIfAbsent(methodCall.method, () => []).add(methodCall.arguments);
 
       if (methodCallResult.containsKey(methodCall.method)) {
         return methodCallResult[methodCall.method];
@@ -43,7 +41,7 @@ void main() {
   });
 
   tearDown(() {
-    channel.setMockMethodCallHandler(null);
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(channel, null);
     methodCallArguments.clear();
     methodCallResult.clear();
     methodCallException.clear();

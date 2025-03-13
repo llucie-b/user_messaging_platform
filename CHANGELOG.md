@@ -1,3 +1,6 @@
+## 1.4.0
+- feat: upgrade Android gradle files
+
 ## 1.3.0
 
 - feat: upgrade UMP SDK to 2.1.0
